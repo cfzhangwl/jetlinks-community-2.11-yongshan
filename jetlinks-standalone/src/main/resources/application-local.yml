@@ -1,0 +1,25 @@
+# 本地开发配置：连接 192.168.56.130 上 Docker 容器中的 PostgreSQL / Redis
+# 该文件已被 .gitignore 忽略，不会提交到仓库。
+# 加载顺序：application-default.yml(默认值) -> application-local.yml(本文件，覆盖同名键)
+# 生效前提：spring.profiles.active 包含 local（.run/JetLinksApplication.run.xml 中已配置 default,dev,local）
+
+# ---------- PostgreSQL ----------
+DB_HOST: 192.168.56.130
+DB_PORT: 5432
+DB_DATABASE: jetlinks_dev   # 独立开发库，与容器中运行实例的 jetlinks 库隔离
+DB_USERNAME: postgres
+DB_PASSWORD: JetLinks@postgres
+DB_SCHEMA: public
+
+# ---------- Redis ----------
+REDIS_HOST: 192.168.56.130
+REDIS_PORT: 6379
+REDIS_PASSWORD: JetLinks@redis
+REDIS_DATABASE: 1           # 独立 db index，避免与容器实例的 db 0 键冲突
+
+# ---------- TimescaleDB ----------
+TIMESCALEDB_SCHEMA: public
+TIMESCALEDB_FUNCTION_SCHEMA: public
+
+# ---------- 初始管理员密码（开发库首次启动建表时写入）----------
+ADMIN_USER_PASSWORD: JetLinks@admin
