@@ -3,6 +3,7 @@ services:
     redis:
         image: redis:6
         container_name: jetlinks-ce-redis
+        restart: always
         #    ports:
         #      - "6379:6379" # 仅供jetlinks-ce访问
         volumes:
@@ -18,6 +19,7 @@ services:
     postgres:
         image: timescale/timescaledb:latest-pg16
         container_name: jetlinks-ce-postgres
+        restart: always
         #        ports:
         #            - "5432:5432"  # 仅供jetlinks-ce访问
         volumes:
@@ -33,8 +35,9 @@ services:
             timeout: 5s
             retries: 5
     jetlinks:
-        image: registry.cn-shenzhen.aliyuncs.com/jetlinks/jetlinks-community:2.11.0-SNAPSHOT
+        image: jetlinks-community-2.11:latest
         container_name: jetlinks-ce
+        restart: always
         ports:
             - "8848:8848" # 平台访问端口
             - "1883-1890:1883-1890" # 预留
@@ -45,9 +48,9 @@ services:
         environment:
             - "JAVA_OPTS=-Duser.language=zh"
             - "TZ=Asia/Shanghai"
-            - "EXTERNAL_HOST=local-host.cn" # 对外提供访问的域名或者ip地址
+            - "EXTERNAL_HOST=192.168.56.130" # 对外提供访问的域名或者ip地址
             - "EXTERNAL_PORT=8848" # 对外提供访问的端口,修改了端口映射同时也需要修改这里.
-            - "ADMIN_USER_PASSWORD=JetLinks.C0mmVn1ty" # admin用户的初始密码
+            - "ADMIN_USER_PASSWORD=JetLinks@admin" # admin用户的初始密码
             - "spring.r2dbc.url=r2dbc:postgresql://postgres:5432/jetlinks" #数据库连接地址
             - "spring.r2dbc.username=postgres"
             - "spring.r2dbc.password=JetLinks@postgres"
